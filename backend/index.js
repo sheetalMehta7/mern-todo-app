@@ -1,11 +1,15 @@
 import express from "express";
 import Todo from "./db.js";
 import { createTodoSchema, updateTodoSchema } from "./types.js";
+import cors from "cors";
+
+
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use(cors());
 
 app.post("/todo", async function (req, res) {
   const todoPayload = req.body;
@@ -69,6 +73,7 @@ app.get("/todo/:id", async function (req, res) {
 });
 
 app.delete("/todo/:id", async function (req, res) {
+  console.log("this is delete handler")
   try {
     const deletedTodo = await Todo.findByIdAndDelete(req.params.id);
     if (!deletedTodo) {
