@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 const TodoForm = () => {
   const [todo, setTodo] = useState({
@@ -30,6 +30,9 @@ const TodoForm = () => {
         throw new Error(resData.msg);
       }
 
+      alert(resData.msg);
+      window.location.reload(true)
+
     } catch (err) {
       console.log(`error: ${err}`);
     }
@@ -37,7 +40,7 @@ const TodoForm = () => {
   
 
   return (
-    <form>
+    <form className="min-w-96 flex flex-col my-10">
       <input
         type="text"
         placeholder="Enter todo title"
@@ -45,6 +48,7 @@ const TodoForm = () => {
         onChange={(e) => {
           setTodo((prev) => ({ ...prev, title: e.target.value }));
         }}
+        className="px-4 py-5" 
       />
       <input
         type="text"
@@ -53,8 +57,9 @@ const TodoForm = () => {
         onChange={(e) => {
           setTodo((prev) => ({ ...prev, description: e.target.value }));
         }}
+        className="px-4 py-5"
       />
-      <button type="submit" onClick={createTodoHandler}>
+      <button type="submit" onClick={createTodoHandler} className="bg-cyan-600">
         Create
       </button>
     </form>

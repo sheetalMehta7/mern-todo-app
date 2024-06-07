@@ -1,6 +1,7 @@
-import React from "react";
+
 
 const Todo = ({ data }) => {
+
   const deleteTodoHandler = async () => {
     try {
       const res = await fetch(`http://localhost:3000/todo/${data?._id}`, {
@@ -10,25 +11,52 @@ const Todo = ({ data }) => {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
       const resData = await res.json();
-      console.log(resData);
+      alert(resData.msg);
+      window.location.reload(true);
     } catch (err) {
       console.log("error:" + err);
     }
   };
 
+  const handleCompleteTodo = async ()=>{
+    try{
+
+      const res = await fetch("http://localhost:3000/completed", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          id: data?._id
+        })
+      });
+      const resData = await res.json();
+      if(!res.ok || resData?.status === 411){
+        throw new Error("Something went wrong!");
+      }
+
+      alert(resData.msg)
+      window.location.reload(true);
+    }catch(err){
+      console.log(`error: ${err}`)
+    }
+  }
+
   return (
-    <tr>
-      <td>{data?.title}</td>
+    <>
+    <tr className="px-4">
+      <td >{data?.title}</td>
       <td>{data?.description}</td>
       <td>
-        <button onClick={deleteTodoHandler}>Delete</button>
+        <button onClick={deleteTodoHandler} className="bg-red-400 me-3">Delete</button>
         {data?.completed ? (
-          <button>Mark as Incomplete</button>
+          <div className="bg-cyan-400 inline-block px-2 py-3 rounded-lg">Completed</div>
         ) : (
-          <button>Mark as Complete</button>
+          <button className="bg-green-400" onClick={handleCompleteTodo}>Mark as Complete</button>
         )}
       </td>
     </tr>
+    </>
   );
 };
 

@@ -6,10 +6,12 @@ function App() {
   const [isTodoForm, setTodoForm] = useState(false);
   return (
     <>
-      <div>
-        <h1>Your go to todo app!</h1>
+      <div className="py-10">
+        <h1 className="text-4xl font-bold mb-5">Your go to todo app!</h1>
+       
+
         {!isTodoForm && (
-          <button onClick={() => setTodoForm(true)}>Create Todo</button>
+          <button onClick={() => setTodoForm(true)} className="bg-green-600 my-5">Create Todo</button>
         )}
         {isTodoForm && <TodoForm />}
         <ListTodo />
